@@ -1,11 +1,32 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-  passwordHash: { type: String, required: true },
-  displayName: { type: String, trim: true },
-  role: { type: String, enum: ['user','admin'], default: 'user' },
-  createdAt: { type: Date, default: Date.now }
+  email: { 
+    type: String,
+     required: true,
+      unique: true,
+       lowercase: true,
+        trim: true 
+      },
+
+  passwordHash: { 
+    type: String,
+     required: true
+     },
+
+  displayName: { 
+    type: String,
+     trim: true
+     },
+
+  admin: { 
+    type: Boolean
+   },
+
+  createdAt: { 
+    type: Date,
+     default: Date.now 
+    }
 });
 
 UserSchema.methods.toPublic = function () {
