@@ -1,37 +1,35 @@
-import mongoose from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
-const UserSchema = new mongoose.Schema({
+export interface IUser extends Document {
+  email: string;
+  password: string; // hashed
+  name?: string;
+  role?: string;
+  createdAt: Date;
+}
+
+const userSchema = new Schema<IUser>({
   email: { 
     type: String,
      required: true,
       unique: true,
-       lowercase: true,
-        trim: true 
-      },
+       lowercase: true
+       },
 
-  passwordHash: { 
+  password: { 
     type: String,
-     required: true
-     },
+     required: true 
+    },
 
-  displayName: { 
-    type: String,
-     trim: true
-     },
-
-  admin: { 
-    type: Boolean
+  name: { 
+    type: String
    },
 
-  createdAt: { 
-    type: Date,
-     default: Date.now 
-    }
-});
+  role: { 
+    type: String,
+     default: "user" 
+    },
+    
+}, { timestamps: true });
 
-UserSchema.methods.toPublic = function () {
-  const { _id, email, displayName, role, createdAt } = this.toObject();
-  return { _id, email, displayName, role, createdAt };
-};
-
-module.exports = mongoose.model('User', UserSchema);
+export const User = model<IUser>("User", userSchema);
